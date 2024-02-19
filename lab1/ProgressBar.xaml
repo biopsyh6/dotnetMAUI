@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="lab1.ProgressBar"
+             Title="ProgressBar">
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Label 
+            x:Name="Print"
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <HorizontalStackLayout>
+            <ProgressBar 
+                         x:Name="ProgressBar1"
+                         Progress="0"                
+                         HeightRequest="600"
+                         WidthRequest="340"
+                
+                         />
+            <Label
+                x:Name="LabelProgressBar"
+                Text="0%"
+                VerticalOptions="Center"
+                />
+            
+        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="25">
+            <Button WidthRequest="100" x:Name="BtnStart"
+                    Text="Start"
+                    Clicked="ClickStart">
+            </Button>
+            <Button WidthRequest="100"
+                    Text="Cancel"
+                    Clicked="ClickCancel">
+            </Button>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
