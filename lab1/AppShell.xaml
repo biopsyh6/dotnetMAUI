@@ -37,5 +37,14 @@
                 Route="ProgressBar"/>
         </Tab>
     </FlyoutItem>
+    <FlyoutItem
+        Title="PageEmployees">
+        <Tab>
+            <ShellContent
+        Title="PageEmployees"
+        ContentTemplate="{DataTemplate local:PageEmployees}"
+        Route="PageEmployees" />
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

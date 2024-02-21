@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="lab1.PageEmployees"
+             Title="PageEmployees"
+             BackgroundColor="AliceBlue">
+    <VerticalStackLayout>
+        <Picker x:Name="groupPicker"
+                Title="Select a job responsibility"
+                SelectedIndexChanged="OnGroupSelectedIndexChanged"
+                ItemDisplayBinding="{Binding Name}"/>
+        <CollectionView x:Name="collectionView">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label HeightRequest="50" FontSize="Large">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Name}"/>
+                                <Span Text=" - "/>
+                                <Span Text="{Binding Country}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-
+﻿using lab1.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
 namespace lab1
 {
     public static class MauiProgram
@@ -7,6 +9,7 @@ namespace lab1
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+            builder.Services.AddTransient<IDbService, SQLiteService>();
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -14,6 +17,7 @@ namespace lab1
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            builder.Services.AddTransient<PageEmployees>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
