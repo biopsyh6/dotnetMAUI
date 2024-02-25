@@ -6,10 +6,11 @@ namespace lab1
 {
     public static class MauiProgram
     {
+        public static IServiceCollection services = new ServiceCollection();
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder.Services.AddTransient<IDbService, SQLiteService>();
+            services.AddTransient<IDbService, SQLiteService>();
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
