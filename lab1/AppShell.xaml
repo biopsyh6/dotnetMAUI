@@ -46,5 +46,13 @@
         Route="PageEmployees" />
         </Tab>
     </FlyoutItem>
-
+    <FlyoutItem
+        Title="Converter">
+        <Tab>
+            <ShellContent
+                Title="Converter"
+                ContentTemplate="{DataTemplate local:Currency_Converter}"
+                Route="Converter"/>
+        </Tab>
+    </FlyoutItem>
 </Shell>

@@ -7,14 +7,14 @@ public partial class PageEmployees : ContentPage
 {
 	private List<JobResponsibilities> _responsibilities;
 	private List<Employees> _employees;
-	private SQLiteService _dbservice;
-	public PageEmployees()
+	private IDbService _dbservice;
+	public PageEmployees(IDbService dbService)
 	{
 
         InitializeComponent();
 		string databasePath = "Database.db";
 			string dbPath = Path.Combine(FileSystem.AppDataDirectory, databasePath);
-		_dbservice = new SQLiteService(dbPath);
+		_dbservice = dbService;// = new SQLiteService(dbPath);
 		LoadData();
 	}
 	private void LoadData()
