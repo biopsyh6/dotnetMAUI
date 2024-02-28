@@ -14,13 +14,29 @@ public partial class Currency_Converter : ContentPage
 		get { return _currencies; }
 		set { _currencies = value; }
 	}
-	public Currency_Converter(IRateService rateService)
+
+    private string _selectedCurrency;
+	public string SelectedCurrency
+	{
+		get { return _selectedCurrency; }
+		set 
+		{
+			if(_selectedCurrency != value)
+			{
+				_selectedCurrency = value;
+				OnPropertyChanged(nameof(SelectedCurrency));
+			}
+		}
+	}
+
+    public Currency_Converter(IRateService rateService)
 	{
 		InitializeComponent();
 		_service = rateService;
 		datePicker.MaximumDate = DateTime.Now;
 		getTodayRates(DateTime.Now);
 
+		ConvertLeft.Clicked += ConvertLeftClicked;
 		BindingContext = this;
 	}
 	public async Task getTodayRates(DateTime dt)
@@ -56,6 +72,33 @@ public partial class Currency_Converter : ContentPage
 		else
 		{
 			EnterRate.Text = "Failed to fetch rates from API";
+		}
+	}
+	private async void ConvertLeftClicked(object sender, EventArgs e)
+	{
+        IEnumerable<Rate>? rates = await _service.GetRates(DateTime.Now);
+        if (double.TryParse(EnterLeft.Text, out double amount))
+		{
+			Rate selectedRate = rates.FirstOrDefault(r => r.Cur_Abbreviation == SelectedCurrency);
+			if(selectedRate != null) 
+			{
+				if (selectedRate.Cur_Abbreviation == "RUB")
+				{
+					double convertedAmount = Math.Round(amount / (double)selectedRate.Cur_OfficialRate * 100, 4);
+					EnterRight.Text = convertedAmount.ToString();
+				}
+				if (selectedRate.Cur_Abbreviation == "USD" || selectedRate.Cur_Abbreviation == "EUR" ||
+                    selectedRate.Cur_Abbreviation == "GBP" || selectedRate.Cur_Abbreviation == "CHF")
+				{
+                    double convertedAmount = Math.Round(amount / (double)selectedRate.Cur_OfficialRate, 4);
+                    EnterRight.Text = convertedAmount.ToString();
+                }
+				if (selectedRate.Cur_Abbreviation == "CNY")
+				{
+                    double convertedAmount = Math.Round(amount / (double)selectedRate.Cur_OfficialRate * 10, 4);
+                    EnterRight.Text = convertedAmount.ToString();
+                }
+            }
 		}
 	}
 	private async void DateChanged(object sender, DateChangedEventArgs e)

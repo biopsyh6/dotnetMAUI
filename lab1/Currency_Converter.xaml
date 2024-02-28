@@ -9,11 +9,11 @@
             HorizontalOptions="Center"
             FontSize="Medium"/>
         <DatePicker 
-                    x:Name="datePicker"
-                    MinimumDate="01/01/2000"
-                    MaximumDate="02/28/2024"
-                    Date="02/28/2024"
-                    DateSelected="DateChanged"
+            x:Name="datePicker"
+            MinimumDate="01/01/2000"
+            MaximumDate="02/28/2024"
+            Date="02/28/2024"
+            DateSelected="DateChanged"
                     />
 
         <Editor
@@ -23,14 +23,6 @@
             IsSpellCheckEnabled="False"
             />
 
-
-        <Picker
-            x:Name="Currency"
-            Title="Выберите валюту"
-            ItemsSource="{Binding Currencies}">
-            <Picker.Items>
-            </Picker.Items>
-        </Picker>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -39,11 +31,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Entry Text="BYN" IsReadOnly="True" Grid.Column="0" Grid.Row="0"/>
-            <Entry Text="0" IsReadOnly="True" Grid.Column="1" Grid.Row="0"/>
-            <Entry Text="0" Keyboard="Numeric" Grid.Column="0" Grid.Row="1"/>
-            <Entry Text="0" Keyboard="Numeric" Grid.Column="1" Grid.Row="1"/>
+            <Picker x:Name="Currency" Title="Выберите валюту" ItemsSource="{Binding Currencies}"
+                     SelectedItem="{Binding SelectedCurrency}" Grid.Column="1" Grid.Row="0"/>
+            <Entry x:Name="EnterLeft" Text="0" Keyboard="Numeric" Grid.Column="0" Grid.Row="1"/>
+            <Entry x:Name="EnterRight" Text="0" Keyboard="Numeric" Grid.Column="1" Grid.Row="1"/>
+            <Button x:Name="ConvertLeft" Text="Конвертировать --" Grid.Column="0" Grid.Row="2" WidthRequest="165"
+                    Clicked="ConvertLeftClicked"/>
+            <Button x:Name="ConvertRight" Text="-- Конвертировать" Grid.Column="1" Grid.Row="2" WidthRequest="165"
+                    />
         </Grid>
     </VerticalStackLayout>
 </ContentPage>
