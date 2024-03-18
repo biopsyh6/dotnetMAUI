@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Security.AccessControl;
 using Microsoft.Maui.Controls;
+using System.Diagnostics;
 namespace lab1;
 
 public partial class ProgressBar : ContentPage
@@ -20,9 +21,10 @@ public partial class ProgressBar : ContentPage
 		ProgressBar1.Progress = 0;
 		Print.Text = "Вычисление";
 		cancellationTokenSource = new CancellationTokenSource();
-		try
+		Debug.WriteLine($"---------------------> Enter calculation {Thread.CurrentThread.ManagedThreadId}");
+        try
 		{
-			double result = await CalculateIntegralAsync(cancellationTokenSource.Token);
+			double result = await Task.Run( ()=> CalculateIntegralAsync(cancellationTokenSource.Token));
 			Print.Text = $"Результат: {result}";
 		}
 		catch (OperationCanceledException)
@@ -42,7 +44,8 @@ public partial class ProgressBar : ContentPage
 	}
 	private async Task<double> CalculateIntegralAsync(CancellationToken cancellationToken)
 	{
-		double step = 0.000001;
+		Debug.WriteLine($"-------------------> Inside calculation {Thread.CurrentThread.ManagedThreadId}");
+        double step = 0.01;
 		double start = 0;
 		double end = 1;
 		double progress = 0;
@@ -57,14 +60,15 @@ public partial class ProgressBar : ContentPage
 			{
 				await Task.Delay(1);
 			}
-			progress = (double) i / iterations;
-			UpdateProgressBar(progress);
-		}
+			await MainThread.InvokeOnMainThreadAsync(() =>
+			{
+                Debug.WriteLine($"---------------> Changing progressBar {Thread.CurrentThread.ManagedThreadId}");
+                progress = (double)i / iterations;
+				ProgressBar1.Progress = progress;
+				LabelProgressBar.Text = $"{progress * 100:F1}%";
+			});
+            Debug.WriteLine($"---------------> Outside changing progressBar {Thread.CurrentThread.ManagedThreadId}");
+        }
 		return integral;
-	}
-	private void UpdateProgressBar(double progress)
-	{
-			ProgressBar1.Progress = progress;
-			LabelProgressBar.Text = $"{progress * 100:F1}%";
 	}
 }

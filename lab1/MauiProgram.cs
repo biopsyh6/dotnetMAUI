@@ -12,8 +12,8 @@ namespace lab1
             string databasePath = "Database.db";
             string dbPath = Path.Combine(FileSystem.AppDataDirectory, databasePath);
             var builder = MauiApp.CreateBuilder();
-            services.AddTransient<IDbService, SQLiteService>(sp=>new SQLiteService(dbPath));
-            services.AddHttpClient<IRateService>(opt =>
+            builder.Services.AddTransient<IDbService, SQLiteService>(sp=>new SQLiteService(dbPath));
+            services.AddHttpClient<IRateService, RateService >(opt =>
                     opt.BaseAddress = new Uri("https://www.nbrb.by/api/exrates/rates"));
             builder
                 .UseMauiApp<App>()
@@ -27,7 +27,7 @@ namespace lab1
                     ? "http://10.0.2.2:5091"
                     : "https://localhost:7091";
             builder.Services.AddHttpClient<IRateService, RateService>(opt => opt.BaseAddress = new Uri(baseAddress));
-            builder.Services.AddSingleton<IRateService, RateService>();
+            //builder.Services.AddSingleton<IRateService, RateService>();
             builder.Services.AddSingleton<Currency_Converter>();
 
 #if DEBUG
